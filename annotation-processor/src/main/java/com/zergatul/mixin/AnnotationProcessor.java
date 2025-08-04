@@ -13,6 +13,7 @@ import javax.tools.Diagnostic;
 import java.util.Set;
 
 @SupportedAnnotationTypes({
+        "com.zergatul.mixin.ExecuteAfterIfElseCondition",
         "com.zergatul.mixin.ModifyMethodReturnValue",
         "com.zergatul.mixin.WrapMethodInsideIfCondition"
 })
@@ -22,6 +23,7 @@ public class AnnotationProcessor extends AbstractProcessor {
     public AnnotationProcessor() {
         // fix crash with missing IMixinService at this stage
         MessageRouter.setMessager(new NullMessager());
+        InjectionInfo.register(ExecuteAfterIfElseConditionInjectionInfo.class);
         InjectionInfo.register(ModifyMethodReturnValueInjectionInfo.class);
         InjectionInfo.register(WrapMethodInsideIfConditionInjectionInfo.class);
     }
