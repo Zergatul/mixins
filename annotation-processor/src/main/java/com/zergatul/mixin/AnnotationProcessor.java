@@ -15,7 +15,8 @@ import java.util.Set;
 @SupportedAnnotationTypes({
         "com.zergatul.mixin.ExecuteAfterIfElseCondition",
         "com.zergatul.mixin.ModifyMethodReturnValue",
-        "com.zergatul.mixin.WrapMethodInsideIfCondition"
+        "com.zergatul.mixin.WrapMethodInsideIfCondition",
+        "com.zergatul.mixin.ReplaceMethodInfectionInfo"
 })
 @SupportedSourceVersion(SourceVersion.RELEASE_21)
 public class AnnotationProcessor extends AbstractProcessor {
@@ -26,6 +27,7 @@ public class AnnotationProcessor extends AbstractProcessor {
         InjectionInfo.register(ExecuteAfterIfElseConditionInjectionInfo.class);
         InjectionInfo.register(ModifyMethodReturnValueInjectionInfo.class);
         InjectionInfo.register(WrapMethodInsideIfConditionInjectionInfo.class);
+        InjectionInfo.register(ReplaceMethodInfectionInfo.class);
     }
 
     @Override
