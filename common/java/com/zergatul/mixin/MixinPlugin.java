@@ -15,6 +15,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
         InjectionInfo.register(ExecuteAfterIfElseConditionInjectionInfo.class);
         InjectionInfo.register(ModifyMethodReturnValueInjectionInfo.class);
         InjectionInfo.register(WrapMethodInsideIfConditionInjectionInfo.class);
+        InjectionInfo.register(ReplaceMethodInfectionInfo.class);
     }
 
     @Override
