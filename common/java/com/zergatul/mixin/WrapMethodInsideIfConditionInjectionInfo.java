@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.struct.InjectionInfo;
 import org.spongepowered.asm.mixin.transformer.MixinTargetContext;
 
 @InjectionInfo.AnnotationType(WrapMethodInsideIfCondition.class)
-@InjectionInfo.HandlerPrefix("wrap-method")
+@InjectionInfo.HandlerPrefix("wrap")
 public class WrapMethodInsideIfConditionInjectionInfo extends InjectionInfo {
 
     public WrapMethodInsideIfConditionInjectionInfo(MixinTargetContext mixin, MethodNode method, AnnotationNode annotation) {
