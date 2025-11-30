@@ -6,16 +6,16 @@ import org.spongepowered.asm.mixin.injection.code.Injector;
 import org.spongepowered.asm.mixin.injection.struct.InjectionInfo;
 import org.spongepowered.asm.mixin.transformer.MixinTargetContext;
 
-@InjectionInfo.AnnotationType(ExecuteAfterIfElseCondition.class)
-@InjectionInfo.HandlerPrefix("execute")
-public class ExecuteAfterIfElseConditionInjectionInfo extends InjectionInfo {
+@InjectionInfo.AnnotationType(LiteInject.class)
+@InjectionInfo.HandlerPrefix("inject")
+public class LiteInjectInjectionInfo extends InjectionInfo {
 
-    public ExecuteAfterIfElseConditionInjectionInfo(MixinTargetContext mixin, MethodNode method, AnnotationNode annotation) {
+    public LiteInjectInjectionInfo(MixinTargetContext mixin, MethodNode method, AnnotationNode annotation) {
         super(mixin, method, annotation);
     }
 
     @Override
     protected Injector parseInjector(AnnotationNode annotationNode) {
-        return new ExecuteAfterIfElseConditionInjector(this);
+        return new LiteInjectInjector(this);
     }
 }

@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.struct.InjectionInfo;
 import org.spongepowered.asm.mixin.transformer.MixinTargetContext;
 
 @InjectionInfo.AnnotationType(ReplaceMethod.class)
-@InjectionInfo.HandlerPrefix("replace-method")
+@InjectionInfo.HandlerPrefix("replace")
 public class ReplaceMethodInfectionInfo extends InjectionInfo {
 
     public ReplaceMethodInfectionInfo(MixinTargetContext mixin, MethodNode method, AnnotationNode annotation) {
