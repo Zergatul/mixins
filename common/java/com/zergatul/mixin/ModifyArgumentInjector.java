@@ -73,7 +73,7 @@ public class ModifyArgumentInjector extends InvokeInjector {
 
         /**/
         int[] extraArguments = new int[methodArgs.length - 1];
-        LocalVariableNode[] locals = Locals.getLocalsAt(target.classNode, target.method, node.getOriginalTarget());
+        LocalVariableNode[] locals = Locals.getLocalsAt(target.classNode, target.method, node.getOriginalTarget(), Locals.Settings.DEFAULT);
         for (int i = 1; i < methodArgs.length; i++) {
             AnnotationNode annotation = Annotations.getVisibleParameter(this.methodNode, LocalVariable.class, i);
             if (annotation == null) {
