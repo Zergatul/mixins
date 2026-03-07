@@ -25,6 +25,8 @@ public class ReplaceMethodInjector extends Injector {
 
         target.method.maxStack  = Math.max(target.method.maxStack,  this.methodNode.maxStack);
         target.method.maxLocals = Math.max(target.method.maxLocals, this.methodNode.maxLocals);
+
+        info.addCallbackInvocation(methodNode);
     }
 
     private InsnList cloneInstructions(InsnList instructions) {
