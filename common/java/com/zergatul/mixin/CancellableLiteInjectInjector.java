@@ -1,11 +1,9 @@
 package com.zergatul.mixin;
 
+import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-import org.objectweb.asm.tree.AnnotationNode;
-import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.LocalVariableNode;
-import org.objectweb.asm.tree.VarInsnNode;
+import org.objectweb.asm.tree.*;
 import org.spongepowered.asm.mixin.injection.code.Injector;
 import org.spongepowered.asm.mixin.injection.struct.InjectionInfo;
 import org.spongepowered.asm.mixin.injection.struct.InjectionNodes;
@@ -14,18 +12,29 @@ import org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionExceptio
 import org.spongepowered.asm.util.Annotations;
 import org.spongepowered.asm.util.Locals;
 
-public class LiteInjectInjector extends Injector {
+import java.util.Optional;
 
-    public LiteInjectInjector(InjectionInfo info) {
-        super(info, "@LiteInject");
+public class CancellableLiteInjectInjector extends Injector {
+
+    public CancellableLiteInjectInjector(InjectionInfo info) {
+        super(info, "@CancellableLiteInject");
     }
 
     @Override
     protected void inject(Target target, InjectionNodes.InjectionNode node) {
         checkTargetModifiers(target, false);
 
-        if (!this.returnType.equals(Type.VOID_TYPE)) {
-            throw new InvalidInjectionException(this.info, "@LiteInject method should return void.");
+        if (target.returnType.equals(Type.VOID_TYPE)) {
+            // if target method returns void, we expect boolean
+            if (!this.returnType.equals(Type.BOOLEAN_TYPE)) {
+                throw new InvalidInjectionException(this.info, "@CancellableLiteInject method should return boolean.");
+            }
+        } else {
+            throw new InvalidInjectionException(this.info, "@CancellableLiteInject currently supports only void target methods.");
+            // if target method returns non-void, we expect Optional
+//            if (!this.returnType.equals(Type.getType(Optional.class))) {
+//                throw new InvalidInjectionException(this.info, "@CancellableLiteInject method should return Optional<T>.");
+//            }
         }
 
         InsnList instructions = new InsnList();
@@ -34,7 +43,7 @@ public class LiteInjectInjector extends Injector {
         // push 'this'
         if (!this.isStatic) {
             instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
-            extraLocals.add(1);
+            target.method.maxStack++;
         }
 
         if (this.methodArgs.length > 0) {
@@ -65,13 +74,30 @@ public class LiteInjectInjector extends Injector {
                 if (!found) {
                     throw new InvalidInjectionException(
                             info,
-                            "@LiteInject injector cannot find local variable for type " + methodArgs[i] + " and ordinal " + ordinal);
+                            "@CancellableLiteInject injector cannot find local variable for type " + methodArgs[i] + " and ordinal " + ordinal);
                 }
             }
         }
 
         invokeHandler(instructions);
-        target.insns.insert(node.getCurrentTarget(), instructions);
+
+        if (target.returnType.equals(Type.VOID_TYPE)) {
+            target.method.maxStack++; // return boolean value from injector
+
+            // if returned value is true, we return from target
+            LabelNode continueNode = new LabelNode(new Label());
+            instructions.add(new JumpInsnNode(Opcodes.IFEQ, continueNode));
+            instructions.add(new InsnNode(Opcodes.RETURN));
+            instructions.add(continueNode);
+        } else {
+            throw new UnsupportedOperationException();
+
+//            target.method.maxStack += 2; // return Optional<T> value from injector, duplicated
+//            LabelNode continueNode = new LabelNode(new Label());
+//            instructions.add(continueNode);
+        }
+
+        target.insns.insertBefore(node.getCurrentTarget(), instructions);
         extraLocals.apply();
     }
 }

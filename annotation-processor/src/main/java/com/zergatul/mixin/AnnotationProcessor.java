@@ -14,9 +14,12 @@ import java.util.Set;
 
 @SupportedAnnotationTypes({
         "com.zergatul.mixin.ExecuteAfterIfElseCondition",
+        "com.zergatul.mixin.LiteInject",
+        "com.zergatul.mixin.CancellableLiteInject",
+        "com.zergatul.mixin.ModifyArgument",
         "com.zergatul.mixin.ModifyMethodReturnValue",
         "com.zergatul.mixin.WrapMethodInsideIfCondition",
-        "com.zergatul.mixin.ReplaceMethodInfectionInfo"
+        "com.zergatul.mixin.ReplaceMethod"
 })
 @SupportedSourceVersion(SourceVersion.RELEASE_21)
 public class AnnotationProcessor extends AbstractProcessor {
@@ -25,6 +28,9 @@ public class AnnotationProcessor extends AbstractProcessor {
         // fix crash with missing IMixinService at this stage
         MessageRouter.setMessager(new NullMessager());
         InjectionInfo.register(ExecuteAfterIfElseConditionInjectionInfo.class);
+        InjectionInfo.register(LiteInjectInjectionInfo.class);
+        InjectionInfo.register(CancellableLiteInjectInjectionInfo.class);
+        InjectionInfo.register(ModifyArgumentInjectionInfo.class);
         InjectionInfo.register(ModifyMethodReturnValueInjectionInfo.class);
         InjectionInfo.register(WrapMethodInsideIfConditionInjectionInfo.class);
         InjectionInfo.register(ReplaceMethodInfectionInfo.class);

@@ -64,9 +64,10 @@ public class ModifyMethodReturnValueInjector extends Injector {
                     int counter = 0;
                     boolean found = false;
                     for (int j = 0; j < locals.length; j++) {
-                        if (locals[j].desc.equals(methodArgs[i].getDescriptor())) {
+                        LocalVariableNode local = locals[j];
+                        if (local != null && local.desc != null && local.desc.equals(methodArgs[i].getDescriptor())) {
                             if (counter == ordinal) {
-                                instructions.add(new VarInsnNode(this.methodArgs[i].getOpcode(Opcodes.ILOAD), locals[j].index));
+                                instructions.add(new VarInsnNode(this.methodArgs[i].getOpcode(Opcodes.ILOAD), local.index));
                                 found = true;
                                 break;
                             }

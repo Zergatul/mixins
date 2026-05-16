@@ -18,6 +18,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
         InjectionInfo.register(ReplaceMethodInfectionInfo.class);
         InjectionInfo.register(ModifyArgumentInjectionInfo.class);
         InjectionInfo.register(LiteInjectInjectionInfo.class);
+        InjectionInfo.register(CancellableLiteInjectInjectionInfo.class);
     }
 
     @Override
