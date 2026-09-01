@@ -9,7 +9,7 @@ plugins {
     java
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 repositories {
     maven("https://repo.spongepowered.org/maven")
@@ -19,12 +19,12 @@ repositories {
 dependencies {
     implementation("org.ow2.asm:asm:9.6")
     implementation("org.ow2.asm:asm-tree:9.6")
-    implementation("org.spongepowered:mixin:0.8.7")
+    implementation("org.spongepowered:mixin:0.8.5")
 }
 
 tasks.withType<JavaCompile> {
-    sourceCompatibility = "21"
-    targetCompatibility = "21"
+    sourceCompatibility = "17"
+    targetCompatibility = "17"
 }
 
 sourceSets.main {

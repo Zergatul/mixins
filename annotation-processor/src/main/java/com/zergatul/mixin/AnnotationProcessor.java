@@ -16,12 +16,11 @@ import java.util.Set;
         "com.zergatul.mixin.ExecuteAfterIfElseCondition",
         "com.zergatul.mixin.LiteInject",
         "com.zergatul.mixin.CancellableLiteInject",
-        "com.zergatul.mixin.ModifyArgument",
         "com.zergatul.mixin.ModifyMethodReturnValue",
         "com.zergatul.mixin.WrapMethodInsideIfCondition",
         "com.zergatul.mixin.ReplaceMethod"
 })
-@SupportedSourceVersion(SourceVersion.RELEASE_21)
+@SupportedSourceVersion(SourceVersion.RELEASE_17)
 public class AnnotationProcessor extends AbstractProcessor {
 
     public AnnotationProcessor() {
@@ -30,7 +29,6 @@ public class AnnotationProcessor extends AbstractProcessor {
         InjectionInfo.register(ExecuteAfterIfElseConditionInjectionInfo.class);
         InjectionInfo.register(LiteInjectInjectionInfo.class);
         InjectionInfo.register(CancellableLiteInjectInjectionInfo.class);
-        InjectionInfo.register(ModifyArgumentInjectionInfo.class);
         InjectionInfo.register(ModifyMethodReturnValueInjectionInfo.class);
         InjectionInfo.register(WrapMethodInsideIfConditionInjectionInfo.class);
         InjectionInfo.register(ReplaceMethodInfectionInfo.class);
