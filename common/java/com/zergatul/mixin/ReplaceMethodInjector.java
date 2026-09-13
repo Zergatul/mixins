@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.struct.InjectionNodes;
 import org.spongepowered.asm.mixin.injection.struct.Target;
 
 import java.util.HashMap;
+import java.util.ListIterator;
 import java.util.Map;
 
 public class ReplaceMethodInjector extends Injector {
@@ -33,13 +34,19 @@ public class ReplaceMethodInjector extends Injector {
         InsnList cloned = new InsnList();
 
         Map<LabelNode, LabelNode> labels = new HashMap<>();
-        for (AbstractInsnNode inst : instructions) {
-            if (inst instanceof LabelNode labelNode) {
+
+        ListIterator<AbstractInsnNode> iterator = instructions.iterator();
+        while (iterator.hasNext()) {
+            AbstractInsnNode inst = iterator.next();
+            if (inst instanceof LabelNode) {
+                LabelNode labelNode = (LabelNode) inst;
                 labels.put(labelNode, new LabelNode(new Label()));
             }
         }
 
-        for (AbstractInsnNode inst : instructions) {
+        iterator = instructions.iterator();
+        while (iterator.hasNext()) {
+            AbstractInsnNode inst = iterator.next();
             cloned.add(inst.clone(labels));
         }
 

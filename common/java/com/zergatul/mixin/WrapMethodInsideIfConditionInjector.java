@@ -23,7 +23,8 @@ public class WrapMethodInsideIfConditionInjector extends Injector {
         checkTargetModifiers(target, false);
 
         AbstractInsnNode instructionNode = node.getCurrentTarget();
-        if (instructionNode instanceof MethodInsnNode methodInsnNode) {
+        if (instructionNode instanceof MethodInsnNode) {
+            MethodInsnNode methodInsnNode = (MethodInsnNode) instructionNode;
             Type returnType = Type.getReturnType(methodInsnNode.desc);
             if (returnType != Type.VOID_TYPE) {
                 throw new InvalidInjectionException(this.info, "@WrapMethodInsideIfCondition should point to void methods.");

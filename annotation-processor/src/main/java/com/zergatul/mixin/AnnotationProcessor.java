@@ -20,7 +20,7 @@ import java.util.Set;
         "com.zergatul.mixin.WrapMethodInsideIfCondition",
         "com.zergatul.mixin.ReplaceMethod"
 })
-@SupportedSourceVersion(SourceVersion.RELEASE_17)
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class AnnotationProcessor extends AbstractProcessor {
 
     public AnnotationProcessor() {

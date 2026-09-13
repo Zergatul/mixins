@@ -20,16 +20,18 @@ public class ExecuteAfterIfElseConditionInjector extends Injector {
 
         AbstractInsnNode instNode = injectionNode.getCurrentTarget(); // this should be end of expression
         AbstractInsnNode nextInstNode = instNode.getNext(); // this should be jump-instruction
-        if (!(nextInstNode instanceof JumpInsnNode elseBlockJump)) {
+        if (!(nextInstNode instanceof JumpInsnNode)) {
             throw new InvalidInjectionException(this.info, "@ExecuteAfterIfElseCondition should point to expression inside if statement.");
         }
 
+        JumpInsnNode elseBlockJump = (JumpInsnNode) nextInstNode;
         LabelNode labelNode = elseBlockJump.label; // follow the label instruction, this is jump to else block
         AbstractInsnNode prevNode = labelNode.getPrevious(); // this should be goto the end of if-else statement
-        if (!(prevNode instanceof JumpInsnNode statementEndJump)) {
+        if (!(prevNode instanceof JumpInsnNode)) {
             throw new InvalidInjectionException(this.info, "@ExecuteAfterIfElseCondition cannot find end of if-else statement.");
         }
 
+        JumpInsnNode statementEndJump = (JumpInsnNode) prevNode;
         InsnList instructions = new InsnList();
         if (!this.isStatic) {
             target.method.maxStack++;

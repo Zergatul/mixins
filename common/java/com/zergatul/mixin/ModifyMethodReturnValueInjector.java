@@ -23,7 +23,8 @@ public class ModifyMethodReturnValueInjector extends Injector {
         checkTargetModifiers(target, false);
 
         AbstractInsnNode instructionNode = node.getCurrentTarget();
-        if (instructionNode instanceof MethodInsnNode methodInsnNode) {
+        if (instructionNode instanceof MethodInsnNode) {
+            MethodInsnNode methodInsnNode = (MethodInsnNode) instructionNode;
             Type originalReturnType = Type.getReturnType(methodInsnNode.desc);
             if (originalReturnType == Type.VOID_TYPE) {
                 throw new InvalidInjectionException(this.info, "@ModifyMethodReturnValue should not point to void methods.");

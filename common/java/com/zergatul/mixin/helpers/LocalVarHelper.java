@@ -7,24 +7,56 @@ import static org.objectweb.asm.Opcodes.*;
 public class LocalVarHelper {
 
     public static int getStoreInst(Type type) {
-        return switch (type.getSort()) {
-            case Type.BOOLEAN, Type.CHAR, Type.BYTE, Type.SHORT, Type.INT -> ISTORE;
-            case Type.LONG -> LSTORE;
-            case Type.FLOAT -> FSTORE;
-            case Type.DOUBLE -> DSTORE;
-            case Type.ARRAY, Type.OBJECT -> ASTORE;
-            default -> throw new IllegalArgumentException("Unsupported type: " + type);
-        };
+        switch (type.getSort()) {
+            case Type.BOOLEAN:
+            case Type.CHAR:
+            case Type.BYTE:
+            case Type.SHORT:
+            case Type.INT:
+                return ISTORE;
+
+            case Type.LONG:
+                return LSTORE;
+
+            case Type.FLOAT:
+                return FSTORE;
+
+            case Type.DOUBLE:
+                return DSTORE;
+
+            case Type.ARRAY:
+            case Type.OBJECT:
+                return ASTORE;
+
+            default:
+                throw new IllegalArgumentException("Unsupported type: " + type);
+        }
     }
 
     public static int getLoadInst(Type type) {
-        return switch (type.getSort()) {
-            case Type.BOOLEAN, Type.CHAR, Type.BYTE, Type.SHORT, Type.INT -> ILOAD;
-            case Type.LONG -> LLOAD;
-            case Type.FLOAT -> FLOAD;
-            case Type.DOUBLE -> DLOAD;
-            case Type.ARRAY, Type.OBJECT -> ALOAD;
-            default -> throw new IllegalArgumentException("Unsupported type: " + type);
-        };
+        switch (type.getSort()) {
+            case Type.BOOLEAN:
+            case Type.CHAR:
+            case Type.BYTE:
+            case Type.SHORT:
+            case Type.INT:
+                return ILOAD;
+
+            case Type.LONG:
+                return LLOAD;
+
+            case Type.FLOAT:
+                return FLOAD;
+
+            case Type.DOUBLE:
+                return DLOAD;
+
+            case Type.ARRAY:
+            case Type.OBJECT:
+                return ALOAD;
+
+            default:
+                throw new IllegalArgumentException("Unsupported type: " + type);
+        }
     }
 }
