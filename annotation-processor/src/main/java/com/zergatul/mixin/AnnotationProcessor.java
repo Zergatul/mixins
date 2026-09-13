@@ -18,7 +18,8 @@ import java.util.Set;
         "com.zergatul.mixin.CancellableLiteInject",
         "com.zergatul.mixin.ModifyMethodReturnValue",
         "com.zergatul.mixin.WrapMethodInsideIfCondition",
-        "com.zergatul.mixin.ReplaceMethod"
+        "com.zergatul.mixin.ReplaceMethod",
+        "com.zergatul.mixin.RethrowWithCondition"
 })
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class AnnotationProcessor extends AbstractProcessor {
@@ -32,6 +33,7 @@ public class AnnotationProcessor extends AbstractProcessor {
         InjectionInfo.register(ModifyMethodReturnValueInjectionInfo.class);
         InjectionInfo.register(WrapMethodInsideIfConditionInjectionInfo.class);
         InjectionInfo.register(ReplaceMethodInfectionInfo.class);
+        InjectionInfo.register(RethrowWithConditionInjectionInfo.class);
     }
 
     @Override
