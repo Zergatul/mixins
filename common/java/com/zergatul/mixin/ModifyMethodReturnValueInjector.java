@@ -41,7 +41,7 @@ public class ModifyMethodReturnValueInjector extends Injector {
             }
 
             InsnList instructions = new InsnList();
-            Target.Extension extraLocals = target.extendLocals();
+            Target.Extension extraStack = target.extendStack();
 
             int[] tempVariables = new int[this.methodArgs.length];
             // save result into variable
@@ -53,7 +53,6 @@ public class ModifyMethodReturnValueInjector extends Injector {
             if (this.methodArgs.length > 1) {
                 LocalVariableNode[] locals = Locals.getLocalsAt(target.classNode, target.method, node.getOriginalTarget(), Locals.Settings.DEFAULT);
 
-                extraLocals.add(2); // prepare stack for loading single value, which may have stacksize=2
                 for (int i = 1; i < this.methodArgs.length; i++) {
                     AnnotationNode annotation = Annotations.getVisibleParameter(this.methodNode, LocalVariable.class, i);
                     if (annotation == null) {
@@ -90,20 +89,20 @@ public class ModifyMethodReturnValueInjector extends Injector {
             // push 'this'
             if (!this.isStatic) {
                 instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                extraLocals.add(1);
+                extraStack.add(1);
             }
 
             // push arguments
             for (int i = 0; i < this.methodArgs.length; i++) {
                 instructions.add(new VarInsnNode(this.methodArgs[i].getOpcode(Opcodes.ILOAD), tempVariables[i]));
                 if (i > 0) {
-                    extraLocals.add(this.methodArgs[i].getSize());
+                    extraStack.add(this.methodArgs[i].getSize());
                 }
             }
 
             invokeHandler(instructions);
             target.insns.insert(instructionNode, instructions);
-            extraLocals.apply();
+            extraStack.apply();
         } else {
             throw new InvalidInjectionPointException(this.info, "@ModifyMethodReturnValue should point to method instruction.");
         }

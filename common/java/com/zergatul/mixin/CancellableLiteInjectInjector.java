@@ -38,12 +38,12 @@ public class CancellableLiteInjectInjector extends Injector {
         }
 
         InsnList instructions = new InsnList();
-        Target.Extension extraLocals = target.extendLocals();
+        Target.Extension extraStack = target.extendStack();
 
         // push 'this'
         if (!this.isStatic) {
             instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
-            target.method.maxStack++;
+            extraStack.add(1);
         }
 
         if (this.methodArgs.length > 0) {
@@ -63,7 +63,7 @@ public class CancellableLiteInjectInjector extends Injector {
                     if (local != null && local.desc != null && local.desc.equals(methodArgs[i].getDescriptor())) {
                         if (counter == ordinal) {
                             instructions.add(new VarInsnNode(this.methodArgs[i].getOpcode(Opcodes.ILOAD), local.index));
-                            extraLocals.add(methodArgs[i].getSize());
+                            extraStack.add(methodArgs[i].getSize());
                             found = true;
                             break;
                         }
@@ -98,6 +98,6 @@ public class CancellableLiteInjectInjector extends Injector {
         }
 
         target.insns.insertBefore(node.getCurrentTarget(), instructions);
-        extraLocals.apply();
+        extraStack.apply();
     }
 }

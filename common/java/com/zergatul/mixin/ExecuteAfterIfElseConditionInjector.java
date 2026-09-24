@@ -31,13 +31,15 @@ public class ExecuteAfterIfElseConditionInjector extends Injector {
         }
 
         InsnList instructions = new InsnList();
+        Target.Extension extraStack = target.extendStack();
         if (!this.isStatic) {
-            target.method.maxStack++;
             instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
+            extraStack.add(1);
         }
 
         invokeHandler(instructions);
 
         target.insns.insert(statementEndJump.label, instructions);
+        extraStack.apply();
     }
 }
